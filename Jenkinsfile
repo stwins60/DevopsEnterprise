@@ -32,7 +32,7 @@ pipeline {
             steps {
                 sh "pip install -r requirements.txt --no-cache-dir"
                 sh "ls -l"
-                sh "python3 pytest test_app.py"
+                sh "python3 -m pytest test_app.py"
             }
         }
         stage('Trivy File Scan') {
