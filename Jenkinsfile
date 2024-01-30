@@ -37,7 +37,7 @@ pipeline {
         }
         stage('Trivy File Scan') {
             steps {
-                sh "docker run --rm aquasec/trivy:0.18.3 fs --scanners vuln,secret,misconfig ."
+                sh "docker run --rm aquasec/trivy:0.18.3 fs ."
             }
         }
         stage('DockerHub Login') {
