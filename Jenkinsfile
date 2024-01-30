@@ -31,6 +31,7 @@ pipeline {
         stage('Pytest') {
             steps {
                 sh "pip install -r requirements.txt --no-cache-dir"
+                sh "ls -l"
                 sh "python3 pytest test_app.py"
             }
         }
