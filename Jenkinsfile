@@ -65,7 +65,7 @@ pipeline {
         }
         stage("Trivy Image Scan") {
             steps {
-                sh "docker run --rm aquasec/trivy:0.18.3 ${env.IMAGE_NAME}"
+                sh "docker run -u 0 --rm aquasec/trivy:0.18.3 ${env.IMAGE_NAME}"
             }
         }
         stage("Push Image to DockerHub") {
