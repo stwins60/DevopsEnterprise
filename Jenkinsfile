@@ -2,8 +2,11 @@ pipeline {
     agent any
     environment {
         DOCKERHUB_USERNAME = "idrisniyi94"
-        DEPLOYMENT_NAME = "devops-enterprise-web"
+        DEPLOYMENT_NAME = "devops-enterprise-deployment"
         IMAGE_NAME = "${env.DOCKERHUB_USERNAME}/devops-enterprise-web:${params.IMAGE_TAG}"
+        REPLICAS = "${params.REPLICAS}"
+        SERVICE_TYPE = "${params.SERVICE_TYPE}"
+        NAMESPACE = "${params.NAMESPACE}"
         // IMAGE_TAG = "${params.BUILD_NUMBER}"
         DOCKERHUB_CREDENTIALS = credentials('d4506f04-b98c-47db-95ce-018ceac27ba6')
         SCANNER_HOME = tool 'sonar-scanner'
@@ -78,10 +81,18 @@ pipeline {
                 script {
                     dir('./k8s') {
                         kubeconfig(credentialsId: '500a0599-809f-4de0-a060-0fdbb6583332', serverUrl: '') {
+                            sh "sed -i 's|NAMESPACE|${env.NAMESPACE}|g' namespace.yaml"
+                            sh "sed -i 's|NAMESPACE|${env.NAMESPACE}|g' deployment.yaml"
+                            sh "sed -i 's|NAMESPACE|${env.NAMESPACE}|g' svc.yaml"
                             sh "kubectl apply -f namespace.yaml"
+
+                            sh "sed -i 's|REPLICAS|${env.REPLICAS}|g' deployment.yaml"
                             sh "sed -i 's|IMAGE_NAME|${env.IMAGE_NAME}|g' deployment.yaml"
+
+                            sh "sed -i 's|SERVICE_TYPE|${env.SERVICE_TYPE}|g' svc.yaml"
+                            sh "sed -i 's|DEPLOYMENT_NAME|${env.DEPLOYMENT_NAME}|g' deployment.yaml"
                             sh "kubectl apply -f deployment.yaml"
-                            sh "kubectl apply -f service.yaml"
+                            sh "kubectl apply -f svc.yaml"
                             // sh "kubectl rollout status deployment/${env.DEPLOYMENT_NAME}"
                         }
                     }

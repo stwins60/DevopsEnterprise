@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: devops-enterprise-service
-  namespace: devops-enterprise
+  namespace: NAMESPACE
 spec:
   selector:
     app: devops-enterprise
@@ -10,4 +10,4 @@ spec:
   - port: 5000
     targetPort: 5000
     nodePort: 30009
-  type: NodePort
+  type: SERVICE_TYPE

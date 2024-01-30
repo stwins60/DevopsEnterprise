@@ -1,9 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: devops-enterprise-deployment
-  namespace: devops-enterprise
+  name: DEPLOYMENT_NAME
+  namespace: NAMESPACE
 spec:
+  replicas: REPLICAS
   selector:
     matchLabels:
       app: devops-enterprise
