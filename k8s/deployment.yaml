@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-enterprise-deployment
+  namespace: devops-enterprise
+spec:
+  selector:
+    matchLabels:
+      app: devops-enterprise
+  template:
+    metadata:
+      labels:
+        app: devops-enterprise
+    spec:
+      containers:
+      - name: devops-enterprise-container
+        image: IMAGE_NAME
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000
